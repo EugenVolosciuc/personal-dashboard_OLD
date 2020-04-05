@@ -2,7 +2,7 @@ import React from 'react'
 import { Layout } from 'antd';
 import Navbar from '../Navigation/Navbar.component'
 
-const { Header, Footer, Sider, Content } = Layout;
+const { Header, Content } = Layout;
 
 const MainLayout = ({children}) => {
     return (

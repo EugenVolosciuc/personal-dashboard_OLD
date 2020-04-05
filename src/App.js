@@ -5,10 +5,6 @@ import { initializeFirebase } from './store/actions/firebaseActions'
 import { setAuthUser } from './store/actions/sessionActions'
 
 class App extends Component {
-	constructor(props) {
-		super(props)
-	}
-
 	componentDidMount() {
 		this.props.initializeFirebase()
 	}

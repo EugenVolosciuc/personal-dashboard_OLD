@@ -40,11 +40,15 @@ const withCache = (fetchDataFunc, minutesCacheIsStored, dataName, fetchFuncArgs)
 
         render() {
             const { isLoading } = this.state
+
+            let propsToPassToComponent = {
+                ...this.props,
+                isLoading
+            }
+            propsToPassToComponent = _.omit(propsToPassToComponent, ['cacheFetchTime', 'fetchDataFunc', 'setCacheFetchTime'])
+
             return (
-                <Component
-                    {...this.props}
-                    isLoading={isLoading}
-                />
+                <Component {...propsToPassToComponent} />
             )
         }
     }

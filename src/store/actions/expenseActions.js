@@ -1,3 +1,11 @@
+const getExpensesDBRef = getState => {
+    const { db } = getState().firebase.firebase
+    const { authUser } = getState().authUser
+    const expensesRef = db.collection('userExpenses').doc(authUser.uid).collection('expenses')
+
+    return { db, authUser, expensesRef }
+}
+
 // GET EXPENSES
 export const GET_EXPENSES_STARTED = 'GET_EXPENSES_STARTED'
 export const GET_EXPENSES_FAILED = 'GET_EXPENSES_FAILED'
@@ -6,14 +14,13 @@ export const GET_EXPENSES_SUCCESS = 'GET_EXPENSES_SUCCESS'
 export const getExpenses = () => (dispatch, getState) => {
     dispatch(getExpensesStarted())
 
-    const { db } = getState().firebase.firebase
-    const { authUser } = getState().authUser
+    const { expensesRef } = getExpensesDBRef(getState)
 
-    return db.collection('userExpenses').doc(authUser.uid).collection('expenses').get()
+    return expensesRef.get()
         .then(querySnapshot => {
             let expensesList = []
             querySnapshot.forEach(doc => {
-                expensesList.push({...doc.data(), uid: doc.id})
+                expensesList.push({ ...doc.data(), uid: doc.id })
             })
 
             dispatch(getExpensesSuccess(expensesList))
@@ -23,7 +30,6 @@ export const getExpenses = () => (dispatch, getState) => {
             dispatch(getExpensesFailed(error))
             Promise.reject(error)
         })
-
 }
 
 const getExpensesStarted = () => ({
@@ -49,15 +55,13 @@ export const ADD_EXPENSE_SUCCESS = 'ADD_EXPENSE_SUCCESS'
 export const addExpense = payload => (dispatch, getState) => {
     dispatch(addExpenseStarted())
 
-    const { db } = getState().firebase.firebase
-    const { authUser } = getState().authUser
+    const { expensesRef } = getExpensesDBRef(getState)
 
-    return db.collection('userExpenses').doc(authUser.uid)
-        .collection('expenses').doc(payload.uid).set({
-            title: payload.title,
-            payDay: payload.payDay,
-            amount: payload.amount
-        })
+    return expensesRef.doc(payload.uid).set({
+        title: payload.title,
+        payDay: payload.payDay,
+        amount: payload.amount
+    })
         .then(() => {
             dispatch(addExpenseSuccess(payload))
             Promise.resolve()
@@ -89,14 +93,12 @@ export const DELETE_EXPENSE_STARTED = 'DELETE_EXPENSE_STARTED'
 export const DELETE_EXPENSE_FAILED = 'DELETE_EXPENSE_FAILED'
 export const DELETE_EXPENSE_SUCCESS = 'DELETE_EXPENSE_SUCCESS'
 
-export const deleteExpense = payload => (dispatch, getState)  => {
+export const deleteExpense = payload => (dispatch, getState) => {
     dispatch(deleteExpenseStarted())
 
-    const { db } = getState().firebase.firebase
-    const { authUser } = getState().authUser
+    const { expensesRef } = getExpensesDBRef(getState)
 
-    return db.collection('userExpenses').doc(authUser.uid)
-        .collection('expenses').doc(payload)
+    return expensesRef.doc(payload)
         .delete()
         .then(() => {
             dispatch(deleteExpenseSuccess(payload))
@@ -122,7 +124,7 @@ const deleteExpenseSuccess = payload => ({
     payload
 })
 
-// UPDATE_EXPENSE
+// UPDATE EXPENSE
 export const UPDATE_EXPENSE_STARTED = 'UPDATE_EXPENSE_STARTED'
 export const UPDATE_EXPENSE_FAILED = 'UPDATE_EXPENSE_FAILED'
 export const UPDATE_EXPENSE_SUCCESS = 'UPDATE_EXPENSE_SUCCESS'
@@ -130,11 +132,9 @@ export const UPDATE_EXPENSE_SUCCESS = 'UPDATE_EXPENSE_SUCCESS'
 export const updateExpense = (uid, payload) => (dispatch, getState) => {
     dispatch(updateExpenseStarted())
 
-    const { db } = getState().firebase.firebase
-    const { authUser } = getState().authUser
+    const { expensesRef } = getExpensesDBRef(getState)
 
-    return db.collection('userExpenses').doc(authUser.uid)
-        .collection('expenses').doc(uid)
+    return expensesRef.doc(uid)
         .update({ ...payload })
         .then(() => {
             dispatch(updateExpenseSuccess(uid, payload))

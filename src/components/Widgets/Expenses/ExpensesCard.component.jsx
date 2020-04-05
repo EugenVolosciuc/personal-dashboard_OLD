@@ -3,10 +3,10 @@ import { Card, Empty, message, Spin, Row } from 'antd'
 import { PlusOutlined, EditOutlined } from '@ant-design/icons'
 import { connect } from 'react-redux'
 import _ from 'lodash'
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from 'uuid'
 
-import EditExpenseModal from './EditExpenseModal.component'
 import AddExpenseModal from './AddExpenseModal.component'
+import EditExpenseModal from './EditExpenseModal.component'
 import { addExpense, getExpenses, deleteExpense, updateExpense } from '../../../store/actions/expenseActions'
 import { withCache } from '../../UtilityComponents'
 
@@ -23,7 +23,7 @@ class ExpensesCard extends Component {
         this.setState({ addExpenseModal: !this.state.addExpenseModal })
     }
 
-    toggleEditModal = (title) => {
+    toggleEditModal = title => {
         if (!title) {
             this.setState({ editExpenseModal: null })
         } else {
@@ -31,7 +31,7 @@ class ExpensesCard extends Component {
         }
     }
 
-    handleAddExpense = (form) => {
+    handleAddExpense = form => {
         let dataToUpdate = {
             ...form.getFieldsValue(),
             uid: uuidv4()
@@ -42,6 +42,7 @@ class ExpensesCard extends Component {
             .then(() => {
                 try {
                     if (this.props.expenses.some(expense => expense.title === dataToUpdate.title)) {
+                        // eslint-disable-next-line
                         throw { message: 'An expense with this title already exists' }
                     }
                     this.props.addExpense(dataToUpdate)
@@ -69,6 +70,7 @@ class ExpensesCard extends Component {
             .then(() => {
                 try {
                     if (this.props.expenses.some(expense => expense.title === dataToUpdate.title && dataToUpdate.title !== initialTitle)) {
+                        // eslint-disable-next-line
                         throw { message: 'An expense with this title already exists' }
                     }
                     this.props.updateExpense(uid, { ...dataToUpdate })
@@ -85,7 +87,6 @@ class ExpensesCard extends Component {
     }
 
     handleDeleteExpense = uid => {
-        console.log("UID", uid)
         this.props.deleteExpense(uid)
             .then(() => {
                 this.toggleEditModal()
@@ -161,7 +162,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        getExpenses: () => dispatch(getExpenses()),
         addExpense: payload => dispatch(addExpense(payload)),
         deleteExpense: payload => dispatch(deleteExpense(payload)),
         updateExpense: (uid, payload) => dispatch(updateExpense(uid, payload))

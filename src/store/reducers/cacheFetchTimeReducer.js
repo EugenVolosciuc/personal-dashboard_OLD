@@ -1,7 +1,8 @@
 import { SET_CACHE_FETCH_TIME } from '../actions/cacheFetchTimeActions'
 
 const initialState = {
-    lastFetchedExpenses: null
+    lastFetchedExpenses: null,
+    lastFetchedNotes: null
 }
 
 function cacheFetchTimeReducer(state = initialState, action) {

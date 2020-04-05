@@ -1,14 +1,17 @@
 import { combineReducers } from 'redux'
+
 import sessionReducer from './sessionReducer'
 import firebaseReducer from './firebaseReducer'
-import expenseReducer from './expenseReducer'
 import cacheFetchTimeReducer from './cacheFetchTimeReducer'
+import expenseReducer from './expenseReducer'
+import noteReducer from './noteReducer'
 
 const rootReducer = combineReducers({
     authUser: sessionReducer,
     firebase: firebaseReducer,
+    cacheFetchTime: cacheFetchTimeReducer,
     expenses: expenseReducer,
-    cacheFetchTime: cacheFetchTimeReducer
+    notes: noteReducer
 })
 
 export default rootReducer
