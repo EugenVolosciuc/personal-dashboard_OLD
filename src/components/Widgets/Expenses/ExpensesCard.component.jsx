@@ -8,27 +8,15 @@ import { v4 as uuidv4 } from 'uuid';
 import EditExpenseModal from './EditExpenseModal.component'
 import AddExpenseModal from './AddExpenseModal.component'
 import { addExpense, getExpenses, deleteExpense, updateExpense } from '../../../store/actions/expenseActions'
+import { withCache } from '../../UtilityComponents'
 
 class ExpensesCard extends Component {
     constructor(props) {
         super(props)
         this.state = {
             editExpenseModal: null,
-            addExpenseModal: false,
-            isLoading: false
+            addExpenseModal: false
         }
-    }
-
-    componentDidMount() {
-        this.setState({isLoading: true})
-        this.props.getExpenses()
-            .then(() => {
-                this.setState({ isLoading: false })
-            })
-            .catch(error => {
-                message.error("Could not fetch expenses")
-                this.setState({ isLoading: false })
-            })
     }
 
     toggleAddModal = () => {
@@ -118,8 +106,8 @@ class ExpensesCard extends Component {
     }
 
     render() {
-        const { addExpenseModal, editExpenseModal, isLoading } = this.state
-        const { expenses } = this.props
+        const { addExpenseModal, editExpenseModal } = this.state
+        const { expenses, isLoading } = this.props
 
         return (
             <div>
@@ -183,4 +171,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(ExpensesCard)
+)(withCache(getExpenses, 5, 'expenses')(ExpensesCard))
