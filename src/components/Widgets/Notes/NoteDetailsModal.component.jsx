@@ -27,10 +27,10 @@ const NoteDetailsModal = ({ note, visible, handleCancel, handleUpdate, handleDel
             <span>
                 <Button onClick={() => handleCancel()}>
                     Cancel
-            </Button>
+                </Button>
                 <Button type="primary" onClick={() => handleUpdate(note.uid, form, initialFormValues.title)}>
                     Submit
-            </Button>
+                </Button>
             </span>
         </div>
     ]
@@ -58,7 +58,7 @@ const NoteDetailsModal = ({ note, visible, handleCancel, handleUpdate, handleDel
                 <Form.Item
                     label="Content"
                     name="textContent">
-                    <Input.TextArea />
+                    <Input.TextArea autoSize={{ minRows: 4, maxRows: 10 }} />
                 </Form.Item>
             </Form>
         </Modal>

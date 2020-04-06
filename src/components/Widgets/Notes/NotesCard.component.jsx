@@ -64,7 +64,8 @@ class NotesCard extends Component {
 
     handleUpdateNote = (uid, form, initialTitle) => {
         let dataToUpdate = {
-            ...form.getFieldsValue()
+            ...form.getFieldsValue(),
+            updatedAt: new Date()
         }
 
         form.validateFields()

@@ -39,7 +39,7 @@ const AddNoteModal = ({ visible, handleCancel, handleAdd }) => {
                 <Form.Item
                     label="Content"
                     name="textContent">
-                    <Input.TextArea />
+                    <Input.TextArea autoSize={{ minRows: 4, maxRows: 10 }} />
                 </Form.Item>
             </Form>
         </Modal>
