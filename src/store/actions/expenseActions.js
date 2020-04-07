@@ -138,11 +138,11 @@ export const updateExpense = (uid, payload) => (dispatch, getState) => {
         .update({ ...payload })
         .then(() => {
             dispatch(updateExpenseSuccess(uid, payload))
-            return Promise.resolve()
+            Promise.resolve()
         })
         .catch(error => {
             dispatch(updateExpenseFailed(error))
-            return Promise.reject(error)
+            Promise.reject(error)
         })
 }
 

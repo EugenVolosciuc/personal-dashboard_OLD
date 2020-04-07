@@ -7,6 +7,10 @@ const layout = {
     wrapperCol: { span: 18 }
 }
 
+const tailLayout = {
+    wrapperCol: { offset: 6, span: 18 },
+  };
+
 const AddPaymentPane = () => {
     const [form] = Form.useForm()
 
@@ -14,31 +18,36 @@ const AddPaymentPane = () => {
         <Form
             {...layout}
             form={form}
-            name="Add payment">
+            name="Add payment"
+            initialValues={{
+                dayPaymentMade: moment()
+            }}>
             <Form.Item
                 label="Amount"
                 name="amount"
                 rules={[
                     { required: true, message: 'Amount must not be empty' },
-                    { type: 'number', min: 0.1, message: 'Amount cannot be less than 0.1'}
+                    { type: 'number', min: 0.1, message: 'Amount cannot be less than 0.1' }
                 ]}>
                 <InputNumber />
             </Form.Item>
             <Form.Item
                 label="Day payment made"
-                name="day-payment-made"
+                name="dayPaymentMade"
                 rules={[{ required: true, message: 'You must choose a day' }]}>
-                <DatePicker
-                    defaultValue={moment()} />
+                <DatePicker />
             </Form.Item>
             <Form.Item
                 label="Notes"
                 name="notes">
                 <Input.TextArea autoSize={{ minRows: 4, maxRows: 10 }} />
+            </Form.Item>
+            <Form.Item
+                {...tailLayout}>
                 <Button
                     type="primary"
                     htmlType="submit"
-                    style={{marginTop: '22px'}}>
+                    style={{ marginTop: '22px' }}>
                     Add Payment
                 </Button>
             </Form.Item>

@@ -7,6 +7,8 @@ import AddPaymentPane from './Panes/AddPaymentPane.component'
 const ExpenseDetailsModal = ({ expense, visible, handleCancel, handleUpdate, handleDelete }) => {
     const { TabPane } = Tabs
 
+    const amountIsVariable = expense.amount === 'variable'
+
     return (
         <Modal
             destroyOnClose
@@ -16,9 +18,13 @@ const ExpenseDetailsModal = ({ expense, visible, handleCancel, handleUpdate, han
             footer={null}
             width="60%"
             bodyStyle={{paddingTop: '0'}}>
-            <Tabs defaultActiveKey="1" size="large">
+            <Tabs defaultActiveKey={amountIsVariable ? '1' : '2'} size="large">
                 <TabPane tab="Add payment" key="1">
-                    <AddPaymentPane />
+                    {
+                        amountIsVariable 
+                            ? <AddPaymentPane />
+                            : <p>You can't manually add a payment if the amount is not variable. You can change the amount in the Details Tab.</p> 
+                    }
                 </TabPane>
                 <TabPane tab="Calendar" key="2">
                     <p>Calendar content</p>
