@@ -2,6 +2,7 @@ import { SET_CACHE_FETCH_TIME } from '../actions/cacheFetchTimeActions'
 
 const initialState = {
     lastFetchedExpenses: null,
+    lastFetchedPayments: null,
     lastFetchedNotes: null
 }
 

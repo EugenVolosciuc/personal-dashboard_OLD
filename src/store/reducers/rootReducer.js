@@ -4,6 +4,7 @@ import sessionReducer from './sessionReducer'
 import firebaseReducer from './firebaseReducer'
 import cacheFetchTimeReducer from './cacheFetchTimeReducer'
 import expenseReducer from './expenseReducer'
+import paymentReducer from './paymentReducer'
 import noteReducer from './noteReducer'
 
 const rootReducer = combineReducers({
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
     firebase: firebaseReducer,
     cacheFetchTime: cacheFetchTimeReducer,
     expenses: expenseReducer,
+    payments: paymentReducer,
     notes: noteReducer
 })
 

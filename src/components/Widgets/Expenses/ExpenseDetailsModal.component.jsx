@@ -3,6 +3,7 @@ import { Modal, Tabs } from 'antd'
 
 import DetailsPane from './Panes/DetailsPane.component'
 import AddPaymentPane from './Panes/AddPaymentPane.component'
+import CalendarPane from './Panes/CalendarPane.component'
 
 const ExpenseDetailsModal = ({ expense, visible, handleCancel, handleUpdate, handleDelete }) => {
     const { TabPane } = Tabs
@@ -22,12 +23,12 @@ const ExpenseDetailsModal = ({ expense, visible, handleCancel, handleUpdate, han
                 <TabPane tab="Add payment" key="1">
                     {
                         amountIsVariable 
-                            ? <AddPaymentPane />
-                            : <p>You can't manually add a payment if the amount is not variable. You can change the amount in the Details Tab.</p> 
+                            ? <AddPaymentPane expense={expense} />
+                            : <p>You can only add a payment if the amount is variable. You can change the amount in the Details Tab.</p> 
                     }
                 </TabPane>
                 <TabPane tab="Calendar" key="2">
-                    <p>Calendar content</p>
+                    <CalendarPane expense={expense} />
                 </TabPane>
                 <TabPane tab="Statistics" key="3">
                     <p>Statistics content</p>

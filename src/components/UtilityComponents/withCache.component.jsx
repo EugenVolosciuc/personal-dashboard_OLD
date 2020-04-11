@@ -5,7 +5,7 @@ import _ from 'lodash'
 
 import { setCacheFetchTime } from '../../store/actions/cacheFetchTimeActions'
 
-const withCache = (fetchDataFunc, minutesCacheIsStored, dataName, fetchFuncArgs) => Component => {
+const withCache = (fetchDataFunc, minutesCacheIsStored, dataName) => Component => {
     const lastFetchedDataName = 'lastFetched' + _.upperFirst(dataName)
 
     class WithCache extends React.Component {
@@ -23,7 +23,7 @@ const withCache = (fetchDataFunc, minutesCacheIsStored, dataName, fetchFuncArgs)
                 return
             } else { // fetch data
                 this.setState({ isLoading: true })
-                this.props.fetchDataFunc(fetchFuncArgs ? fetchFuncArgs : null)
+                this.props.fetchDataFunc()
                     .then(() => {
                         this.setState({ isLoading: false })
                         this.props.setCacheFetchTime({

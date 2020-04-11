@@ -1,3 +1,5 @@
+import moment from 'moment'
+
 const getPaymentsDBRef = (expenseID, getState) => {
     const { db } = getState().firebase.firebase
     const { authUser } = getState().authUser
@@ -22,7 +24,8 @@ export const getPayments = payload => (dispatch, getState) => {
             querySnapshot.forEach(doc => {
                 paymentsList.push({ ...doc.data(), uid: doc.id })
             })
-
+            console.log("PAYLOAD", payload)
+            console.log("paymentsList", paymentsList)
             dispatch(getPaymentsSuccess(paymentsList))
             Promise.resolve()
         })
@@ -41,10 +44,13 @@ const getPaymentsFailed = error => ({
     payload: { error }
 })
 
-const getPaymentsSuccess = expenses => ({
-    type: GET_PAYMENTS_SUCCESS,
-    payload: expenses
-})
+const getPaymentsSuccess = payments => {
+    console.log("payments", payments)
+    return {
+        type: GET_PAYMENTS_SUCCESS,
+        payload: payments
+    }
+}
 
 // ADD PAYMENT
 export const ADD_PAYMENT_STARTED = 'ADD_PAYMENT_STARTED'
@@ -54,11 +60,11 @@ export const ADD_PAYMENT_SUCCESS = 'ADD_PAYMENT_SUCCESS'
 export const addPayment = payload => (dispatch, getState) => {
     dispatch(addPaymentStarted())
 
-    const { paymentRef } = getPaymentsDBRef(payload.expenseID, getState)
+    const { paymentsRef } = getPaymentsDBRef(payload.expenseID, getState)
 
-    return paymentRef.doc(payload.newPayment.uid).set({
+    return paymentsRef.doc(payload.newPayment.uid).set({
         amount: payload.newPayment.amount,
-        dayPaymentMade: payload.newPayment.dayPaymentMade,
+        dayPaymentMade: payload.newPayment.dayPaymentMade.toDate(),
         notes: payload.newPayment.notes
     })
         .then(() => {
@@ -95,9 +101,9 @@ export const DELETE_PAYMENT_SUCCESS = 'DELETE_PAYMENT_SUCCESS'
 export const deletePayment = payload => (dispatch, getState) => {
     dispatch(deletePaymentStarted())
 
-    const { paymentRef } = getPaymentsDBRef(payload.expenseID, getState)
+    const { paymentsRef } = getPaymentsDBRef(payload.expenseID, getState)
 
-    return paymentRef.doc(payload.paymentID)
+    return paymentsRef.doc(payload.paymentID)
         .delete()
         .then(() => {
             dispatch(deletePaymentSuccess(payload.paymentID))
@@ -131,9 +137,9 @@ export const UPDATE_PAYMENT_SUCCESS = 'UPDATE_PAYMENT_SUCCESS'
 export const updatePayment = (expenseID, paymentID, payload) => (dispatch, getState) => {
     dispatch(updatePaymentStarted())
 
-    const { paymentRef } = getPaymentsDBRef(expenseID, getState)
+    const { paymentsRef } = getPaymentsDBRef(expenseID, getState)
 
-    return paymentRef.doc(paymentID)
+    return paymentsRef.doc(paymentID)
         .update({ ...payload })
         .then(() => {
             dispatch(updatePaymentSuccess(paymentID, payload))
