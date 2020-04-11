@@ -1,9 +1,8 @@
-import moment from 'moment'
-
 const getPaymentsDBRef = (expenseID, getState) => {
     const { db } = getState().firebase.firebase
     const { authUser } = getState().authUser
     const paymentsRef = db.collection('userExpenses').doc(authUser.uid).collection('expenses').doc(expenseID).collection('payments')
+        
 
     return { db, authUser, paymentsRef }
 }
@@ -18,15 +17,17 @@ export const getPayments = payload => (dispatch, getState) => {
 
     const { paymentsRef } = getPaymentsDBRef(payload.expenseID, getState)
 
-    return paymentsRef.get()
+    return paymentsRef.orderBy("dayPaymentMade", "desc").get()
         .then(querySnapshot => {
             let paymentsList = []
             querySnapshot.forEach(doc => {
-                paymentsList.push({ ...doc.data(), uid: doc.id })
+                paymentsList.push({ 
+                    ...doc.data(), 
+                    uid: doc.id, 
+                    dayPaymentMade: doc.data().dayPaymentMade.toDate() // convert Firestore Timestamp to Date object
+                }) 
             })
-            console.log("PAYLOAD", payload)
-            console.log("paymentsList", paymentsList)
-            dispatch(getPaymentsSuccess(paymentsList))
+            dispatch(getPaymentsSuccess(paymentsList, payload.expenseTitle))
             Promise.resolve()
         })
         .catch(error => {
@@ -44,11 +45,13 @@ const getPaymentsFailed = error => ({
     payload: { error }
 })
 
-const getPaymentsSuccess = payments => {
-    console.log("payments", payments)
+const getPaymentsSuccess = (payments, expenseTitle) => {
     return {
         type: GET_PAYMENTS_SUCCESS,
-        payload: payments
+        payload: {
+            payments,
+            expenseTitle
+        }
     }
 }
 
@@ -64,11 +67,11 @@ export const addPayment = payload => (dispatch, getState) => {
 
     return paymentsRef.doc(payload.newPayment.uid).set({
         amount: payload.newPayment.amount,
-        dayPaymentMade: payload.newPayment.dayPaymentMade.toDate(),
+        dayPaymentMade: payload.newPayment.dayPaymentMade,
         notes: payload.newPayment.notes
     })
         .then(() => {
-            dispatch(addPaymentSuccess(payload.newPayment))
+            dispatch(addPaymentSuccess(payload.newPayment, payload.expenseTitle))
             Promise.resolve()
         })
         .catch(error => {
@@ -86,10 +89,11 @@ const addPaymentFailed = error => ({
     payload: { error }
 })
 
-const addPaymentSuccess = payment => ({
+const addPaymentSuccess = (payment, expenseTitle) => ({
     type: ADD_PAYMENT_SUCCESS,
     payload: {
-        ...payment
+        payment,
+        expenseTitle
     }
 })
 
@@ -106,7 +110,7 @@ export const deletePayment = payload => (dispatch, getState) => {
     return paymentsRef.doc(payload.paymentID)
         .delete()
         .then(() => {
-            dispatch(deletePaymentSuccess(payload.paymentID))
+            dispatch(deletePaymentSuccess(payload))
             Promise.resolve()
         })
         .catch(error => {
@@ -134,7 +138,7 @@ export const UPDATE_PAYMENT_STARTED = 'UPDATE_PAYMENT_STARTED'
 export const UPDATE_PAYMENT_FAILED = 'UPDATE_PAYMENT_FAILED'
 export const UPDATE_PAYMENT_SUCCESS = 'UPDATE_PAYMENT_SUCCESS'
 
-export const updatePayment = (expenseID, paymentID, payload) => (dispatch, getState) => {
+export const updatePayment = (expenseID, expenseTitle, paymentID, payload) => (dispatch, getState) => {
     dispatch(updatePaymentStarted())
 
     const { paymentsRef } = getPaymentsDBRef(expenseID, getState)
@@ -142,7 +146,7 @@ export const updatePayment = (expenseID, paymentID, payload) => (dispatch, getSt
     return paymentsRef.doc(paymentID)
         .update({ ...payload })
         .then(() => {
-            dispatch(updatePaymentSuccess(paymentID, payload))
+            dispatch(updatePaymentSuccess(paymentID, expenseTitle, payload))
             Promise.resolve()
         })
         .catch(error => {
@@ -161,10 +165,11 @@ const updatePaymentFailed = error => ({
     payload: { error }
 })
 
-const updatePaymentSuccess = (paymentID, payload) => {
+const updatePaymentSuccess = (paymentID, expenseTitle, payload) => {
     return {
         type: UPDATE_PAYMENT_SUCCESS,
         paymentID,
+        expenseTitle,
         payload
     }
 }

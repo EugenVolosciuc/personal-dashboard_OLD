@@ -6,7 +6,7 @@ import _ from 'lodash'
 import { v4 as uuidv4 } from 'uuid'
 
 import AddNoteModal from './AddNoteModal.component'
-import NoteDetailsModal from './NoteDetailsModal.component'
+import EditNoteModal from './EditNoteModal.component'
 import { addNote, getNotes, deleteNote, updateNote } from '../../../store/actions/noteActions'
 import { withCache } from '../../UtilityComponents'
 
@@ -23,7 +23,7 @@ class NotesCard extends Component {
         this.setState({ addNoteModal: !this.state.addNoteModal })
     }
 
-    toggleDetailsModal = title => {
+    toggleEditModal = title => {
         if (!title) {
             this.setState({ noteDetailsModal: null })
         } else {
@@ -77,7 +77,7 @@ class NotesCard extends Component {
                     }
                     this.props.updateNote(uid, { ...dataToUpdate })
 
-                    this.toggleDetailsModal()
+                    this.toggleEditModal()
                     message.success('Note updated successfully')
                 } catch (error) {
                     message.error(error.message)
@@ -91,7 +91,7 @@ class NotesCard extends Component {
     handleDeleteNote = uid => {
         this.props.deleteNote(uid)
             .then(() => {
-                this.toggleDetailsModal()
+                this.toggleEditModal()
                 message.success('Note deleted successfully')
             })
             .catch(error => {
@@ -112,10 +112,10 @@ class NotesCard extends Component {
                         handleAdd={this.handleAddNote}/>}
 
                 {noteDetailsModal && 
-                    <NoteDetailsModal 
+                    <EditNoteModal 
                         note={notes.find(note => note.title === noteDetailsModal) || {}}
                         visible={!_.isNull(noteDetailsModal)}
-                        handleCancel={this.toggleDetailsModal}
+                        handleCancel={this.toggleEditModal}
                         handleUpdate={this.handleUpdateNote}
                         handleDelete={this.handleDeleteNote} />}
 
@@ -133,7 +133,7 @@ class NotesCard extends Component {
                                             <Card.Grid
                                                 key={note.uid}
                                                 style={{width: '100%', display: 'flex', justifyContent: 'space-between'}}
-                                                onClick={() => this.toggleDetailsModal(note.title)}
+                                                onClick={() => this.toggleEditModal(note.title)}
                                             >
                                                 <span>{note.title}</span>
                                             </Card.Grid>

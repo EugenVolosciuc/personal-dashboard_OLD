@@ -30,7 +30,8 @@ const AddExpenseModal = ({ visible, handleCancel, handleAdd }) => {
             onOk={() => handleAdd(form)}
             onCancel={() => handleCancel()}
             visible={visible}
-            footer={modalFooter}>
+            footer={modalFooter}
+            width="600px">
             <Form
                 {...layout}
                 form={form}

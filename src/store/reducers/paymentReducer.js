@@ -42,32 +42,47 @@ export default function paymentReducer(state = initialState, action) {
             return {
                 ...state,
                 loading: false,
-                payments: [...state.payments, action.payload]
+                payments: {
+                    ...state.payments,
+                    [action.payload.expenseTitle]: [
+                        ...state.payments[action.payload.expenseTitle], action.payload.payment
+                    ]
+                }
             }
         case GET_PAYMENTS_SUCCESS:
             return {
                 ...state,
                 loading: false,
-                payments: [...action.payload]
+                payments: {
+                    ...state.payments,
+                    [action.payload.expenseTitle]: [...action.payload.payments]
+                }
             }
         case DELETE_PAYMENT_SUCCESS:
+            console.log("action.payload", action.payload)
             return {
                 ...state,
                 loading: false,
-                payments: state.payments.filter(payment => {
-                    return payment.uid !== action.payload
-                })
+                payments: {
+                    ...state.payments,
+                    [action.payload.expenseTitle]: state.payments[action.payload.expenseTitle].filter(payment => {
+                        return payment.uid !== action.payload.paymentID
+                    })
+                }
             }
         case UPDATE_PAYMENT_SUCCESS:
             return {
                 ...state,
                 loading: false,
-                payments: state.payments.map(payment => {
-                    if (payment.uid === action.uid) {
-                        return Object.assign({}, payment, action.payload)
-                    }
-                    return payment
-                })
+                payments: {
+                    ...state.payments,
+                    [action.expenseTitle]: state.payments[action.expenseTitle].map(payment => {
+                        if (payment.uid === action.paymentID) {
+                            return Object.assign({}, payment, action.payload)
+                        }
+                        return payment
+                    })
+                }
             }
         default:
             return state

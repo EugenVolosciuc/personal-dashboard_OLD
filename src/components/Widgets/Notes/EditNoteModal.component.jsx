@@ -6,7 +6,7 @@ const layout = {
     wrapperCol: { span: 18 }
 }
 
-const NoteDetailsModal = ({ note, visible, handleCancel, handleUpdate, handleDelete }) => {
+const EditNoteModal = ({ note, visible, handleCancel, handleUpdate, handleDelete }) => {
     const [form] = Form.useForm()
 
     const initialFormValues = {
@@ -42,7 +42,8 @@ const NoteDetailsModal = ({ note, visible, handleCancel, handleUpdate, handleDel
             onOk={() => handleUpdate(note.uid, form, initialFormValues.title)}
             onCancel={() => handleCancel()}
             visible={visible}
-            footer={modalFooter}>
+            footer={modalFooter}
+            width="600px">
             <Form
                 {...layout}
                 form={form}
@@ -65,4 +66,4 @@ const NoteDetailsModal = ({ note, visible, handleCancel, handleUpdate, handleDel
     )
 }
 
-export default NoteDetailsModal
+export default EditNoteModal

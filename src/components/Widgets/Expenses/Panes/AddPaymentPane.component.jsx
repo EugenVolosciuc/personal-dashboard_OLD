@@ -22,9 +22,11 @@ const AddPaymentPane = ({ addPayment, expense }) => {
         let dataToSend = {
             newPayment: {
                 ...form.getFieldsValue(),
+                dayPaymentMade: form.getFieldValue('dayPaymentMade').toDate(),
                 uid: uuidv4(),
             },
-            expenseID: expense.uid
+            expenseID: expense.uid,
+            expenseTitle: expense.title
         }
 
         if (dataToSend.newPayment.notes === undefined) {
