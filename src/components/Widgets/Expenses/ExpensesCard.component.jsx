@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 import AddExpenseModal from './AddExpenseModal.component'
 import ExpenseDetailsModal from './ExpenseDetailsModal.component'
+import GeneralExpenseModal from './GeneralExpenseModal.component'
 import { addExpense, getExpenses, deleteExpense, updateExpense } from '../../../store/actions/expenseActions'
 import { withCache } from '../../UtilityComponents'
 
@@ -15,12 +16,17 @@ class ExpensesCard extends Component {
         super(props)
         this.state = {
             addExpenseModal: false,
+            generalExpenseModal: false,
             expenseDetailsModal: null
         }
     }
 
     toggleAddModal = () => {
         this.setState({ addExpenseModal: !this.state.addExpenseModal })
+    }
+
+    toggleGeneralExpenseModal = () => {
+        this.setState({ generalExpenseModal: !this.state.generalExpenseModal })
     }
 
     toggleDetailsModal = title => {
@@ -107,13 +113,13 @@ class ExpensesCard extends Component {
     }
 
     render() {
-        const { addExpenseModal, expenseDetailsModal } = this.state
+        const { addExpenseModal, expenseDetailsModal, generalExpenseModal } = this.state
         const { expenses, isLoading } = this.props
 
         return (
             <div>
                 {expenseDetailsModal &&
-                    <ExpenseDetailsModal 
+                    <ExpenseDetailsModal
                         expense={expenses.find(expense => expense.title === expenseDetailsModal) || {}}
                         visible={!_.isNull(expenseDetailsModal)}
                         handleCancel={this.toggleDetailsModal}
@@ -124,8 +130,12 @@ class ExpensesCard extends Component {
                         visible={addExpenseModal}
                         handleCancel={this.toggleAddModal}
                         handleAdd={this.handleAddExpense} />}
+                {generalExpenseModal &&
+                    <GeneralExpenseModal
+                        visible={generalExpenseModal}
+                        handleCancel={this.toggleGeneralExpenseModal} />}
                 <Card
-                    title="Monthly expenses"
+                    title={<p style={{ marginBottom: '0' }} onClick={this.toggleGeneralExpenseModal}>Monthly expenses</p>}
                     style={{ width: '300px' }}
                     extra={<PlusOutlined onClick={() => this.toggleAddModal()} />}
                 >

@@ -3,7 +3,7 @@ import { Modal, Tabs } from 'antd'
 
 import DetailsPane from './Panes/DetailsPane.component'
 import AddPaymentPane from './Panes/AddPaymentPane.component'
-import CalendarPane from './Panes/CalendarPane.component'
+import PaymentsCalendarPane from './Panes/PaymentsCalendarPane.component'
 
 const ExpenseDetailsModal = ({ expense, visible, handleCancel, handleUpdate, handleDelete }) => {
     const { TabPane } = Tabs
@@ -28,7 +28,7 @@ const ExpenseDetailsModal = ({ expense, visible, handleCancel, handleUpdate, han
                     }
                 </TabPane>
                 <TabPane tab="Calendar" key="2">
-                    <CalendarPane expense={expense} />
+                    <PaymentsCalendarPane expense={expense} />
                 </TabPane>
                 <TabPane tab="Statistics" key="3">
                     <p>Statistics content</p>

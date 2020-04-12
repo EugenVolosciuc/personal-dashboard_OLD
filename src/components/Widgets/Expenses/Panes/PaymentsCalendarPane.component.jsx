@@ -3,12 +3,11 @@ import { Calendar } from 'antd'
 import { connect } from 'react-redux'
 import _ from 'lodash'
 
-// TO DO: add caching to payment types
 import { withCache } from '../../../UtilityComponents'
 import { getPayments } from '../../../../store/actions/paymentActions'
 import EditPaymentModal from '../EditPaymentModal.component'
 
-const CalendarPane = ({ expense, payments }) => {
+const PaymentsCalendarPane = ({ expense, payments }) => {
     const [showEditModal, setShowEditModal] = useState(null)
 
     const monthCellRender = (value) => {
@@ -21,7 +20,7 @@ const CalendarPane = ({ expense, payments }) => {
                             <p>Amount: {payment.amount}</p>
                             {
                                 !_.isNull(payment.notes) &&
-                                <p>Notes: {payment.notes.length > 20 ? payment.notes.substring(0, 20) + '...' : payment.notes}</p>
+                                <p>Notes: {payment.notes.length > 30 ? payment.notes.substring(0, 30) + '...' : payment.notes}</p>
                             }
                         </div>
                     )
@@ -66,4 +65,4 @@ export default connect(
     mapStateToProps,
 )(withCache(
     getPayments, 5, 'payments', ['expense', { expenseID: 'uid', expenseTitle: 'title' }], true
-)(CalendarPane))
+)(PaymentsCalendarPane))
