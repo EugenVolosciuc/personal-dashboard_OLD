@@ -59,7 +59,6 @@ export default function paymentReducer(state = initialState, action) {
                 }
             }
         case DELETE_PAYMENT_SUCCESS:
-            console.log("action.payload", action.payload)
             return {
                 ...state,
                 loading: false,

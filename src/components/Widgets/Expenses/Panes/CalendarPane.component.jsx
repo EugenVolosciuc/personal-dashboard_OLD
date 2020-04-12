@@ -1,37 +1,32 @@
-import React, { useState, useEffect, Fragment } from 'react'
-import moment from 'moment'
+import React, { useState, Fragment } from 'react'
 import { Calendar } from 'antd'
 import { connect } from 'react-redux'
 import _ from 'lodash'
 
 // TO DO: add caching to payment types
-// import { withCache } from '../../../UtilityComponents'
+import { withCache } from '../../../UtilityComponents'
 import { getPayments } from '../../../../store/actions/paymentActions'
 import EditPaymentModal from '../EditPaymentModal.component'
 
-const CalendarPane = ({ expense, payments, getPayments }) => {
+const CalendarPane = ({ expense, payments }) => {
     const [showEditModal, setShowEditModal] = useState(null)
-
-    useEffect(() => {
-        getPayments({ expenseID: expense.uid, expenseTitle: expense.title })
-    }, [])
 
     const monthCellRender = (value) => {
         // Render all payments in year mode
         if (payments[expense.title]) {
             return payments[expense.title].map(payment => {
-                if (payment.dayPaymentMade.getFullYear() === value.toDate().getFullYear()) {
-                    if (payment.dayPaymentMade.getMonth() === value.toDate().getMonth()) {
-                        return (
-                            <div key={payment.uid} onClick={() => toggleShowEditModal(payment.uid)}>
-                                <p>Amount: {payment.amount}</p>
-                                {
-                                    !_.isNull(payment.notes) &&
-                                    <p>Notes: {payment.notes.length > 20 ? payment.notes.substring(0, 20) + '...' : payment.notes}</p>
-                                }
-                            </div>
-                        )
-                    }
+                if (payment.dayPaymentMade.getFullYear() === value.toDate().getFullYear() && payment.dayPaymentMade.getMonth() === value.toDate().getMonth()) {
+                    return (
+                        <div key={payment.uid} onClick={() => toggleShowEditModal(payment.uid)}>
+                            <p>Amount: {payment.amount}</p>
+                            {
+                                !_.isNull(payment.notes) &&
+                                <p>Notes: {payment.notes.length > 20 ? payment.notes.substring(0, 20) + '...' : payment.notes}</p>
+                            }
+                        </div>
+                    )
+                } else {
+                    return null
                 }
             })
         }
@@ -67,13 +62,8 @@ const mapStateToProps = state => {
     }
 }
 
-const mapDispatchToProps = dispatch => {
-    return {
-        getPayments: (payload) => dispatch(getPayments(payload)),
-    }
-}
-
 export default connect(
     mapStateToProps,
-    mapDispatchToProps
-)(CalendarPane)
+)(withCache(
+    getPayments, 5, 'payments', ['expense', { expenseID: 'uid', expenseTitle: 'title' }], true
+)(CalendarPane))

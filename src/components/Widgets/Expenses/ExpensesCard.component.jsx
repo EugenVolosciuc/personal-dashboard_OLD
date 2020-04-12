@@ -169,4 +169,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(withCache(getExpenses, 5, 'expenses')(ExpensesCard))
+)(withCache(getExpenses, 5, 'expenses', true)(ExpensesCard))
