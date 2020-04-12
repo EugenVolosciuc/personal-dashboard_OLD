@@ -14,7 +14,7 @@ class NotesCard extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            noteDetailsModal: null,
+            editNoteModal: null,
             addNoteModal: false
         }
     }
@@ -25,9 +25,9 @@ class NotesCard extends Component {
 
     toggleEditModal = title => {
         if (!title) {
-            this.setState({ noteDetailsModal: null })
+            this.setState({ editNoteModal: null })
         } else {
-            this.setState({ noteDetailsModal: title })
+            this.setState({ editNoteModal: title })
         }
     }
 
@@ -36,7 +36,7 @@ class NotesCard extends Component {
             ...form.getFieldsValue(),
             uid: uuidv4(),
             createdAt: new Date(),
-            updatedAt: null
+            updatedAt: new Date()
         }
 
         if (dataToUpdate.textContent === undefined) {
@@ -100,7 +100,7 @@ class NotesCard extends Component {
     }
 
     render() {
-        const { addNoteModal, noteDetailsModal } = this.state
+        const { addNoteModal, editNoteModal } = this.state
         const { notes, isLoading } = this.props
 
         return (
@@ -111,10 +111,10 @@ class NotesCard extends Component {
                         handleCancel={this.toggleAddModal}
                         handleAdd={this.handleAddNote}/>}
 
-                {noteDetailsModal && 
+                {editNoteModal && 
                     <EditNoteModal 
-                        note={notes.find(note => note.title === noteDetailsModal) || {}}
-                        visible={!_.isNull(noteDetailsModal)}
+                        note={notes.find(note => note.title === editNoteModal) || {}}
+                        visible={!_.isNull(editNoteModal)}
                         handleCancel={this.toggleEditModal}
                         handleUpdate={this.handleUpdateNote}
                         handleDelete={this.handleDeleteNote} />}

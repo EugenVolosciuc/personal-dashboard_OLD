@@ -6,6 +6,7 @@ import cacheFetchTimeReducer from './cacheFetchTimeReducer'
 import expenseReducer from './expenseReducer'
 import paymentReducer from './paymentReducer'
 import noteReducer from './noteReducer'
+import todoReducer from './todoReducer'
 
 const rootReducer = combineReducers({
     authUser: sessionReducer,
@@ -13,7 +14,8 @@ const rootReducer = combineReducers({
     cacheFetchTime: cacheFetchTimeReducer,
     expenses: expenseReducer,
     payments: paymentReducer,
-    notes: noteReducer
+    notes: noteReducer,
+    todos: todoReducer
 })
 
 export default rootReducer

@@ -19,7 +19,7 @@ const initialState = {
     error: null
 }
 
-export default function notesReducer(state = initialState, action) {
+export default function noteReducer(state = initialState, action) {
     switch (action.type) {
         case ADD_NOTE_STARTED:
         case GET_NOTES_STARTED:
