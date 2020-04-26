@@ -1,0 +1,23 @@
+@import "variables";
+
+body {
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.logo {
+    color: $white;
+    font-weight: 900;
+    font-size: 1.8rem;
+    text-align: center;
+}
+
+// Ant Design overwrites
+// .ant-menu.ant-menu-dark .ant-menu-item-selected {
+//     background-color: transparent;
+// }
+
+// .ant-menu-dark .ant-menu-item-selected .anticon,
+// .ant-menu-dark .ant-menu-item-selected .anticon + span {
+//     color: rgba(255, 255, 255, 0.65);
+// }

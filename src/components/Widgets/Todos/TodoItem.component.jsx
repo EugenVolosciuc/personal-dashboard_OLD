@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { List } from 'antd'
 import { DeleteOutlined } from '@ant-design/icons'
-import '../../../style/tempStyle.css'
 
 const TodoItem = ({ todo, onUpdate, onDelete }) => {
     const [todoIsDone, setTodoIsdone] = useState(todo.done)

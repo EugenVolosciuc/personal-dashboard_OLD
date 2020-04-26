@@ -8,13 +8,13 @@ import Navbar from '../Navigation/Navbar.component'
 
 const { Header, Content } = Layout;
 
-const MainLayout = ({ authUser, children }) => {
+const MainLayout = ({ authUser, children, setEditMode }) => {
     const location = useLocation()
-    
+
     const getLayoutToShow = () => {
         if (authUser) {
             if (location.pathname === '/dashboard') {
-                return <LoggedInMainLayout>{children}</LoggedInMainLayout>
+                return <LoggedInMainLayout setEditMode={setEditMode}>{children}</LoggedInMainLayout>
             } else {
                 return <LoggedOutMainLayout>{children}</LoggedOutMainLayout>
             }
@@ -26,7 +26,7 @@ const MainLayout = ({ authUser, children }) => {
     return <>{getLayoutToShow()}</>
 }
 
-const LoggedInMainLayout = ({ children }) => {
+const LoggedInMainLayout = ({ children, setEditMode }) => {
     const [collapsed, setCollapsed] = useState(false)
 
     const { Sider } = Layout
@@ -42,14 +42,29 @@ const LoggedInMainLayout = ({ children }) => {
                 collapsible
                 collapsed={collapsed}
                 onCollapse={() => setCollapsed(!collapsed)}>
-                <Menu theme="dark">
-                    <Menu.Item>
-                        <AppstoreOutlined />
-                        <span>Widgets</span>
-                    </Menu.Item>
-                    <Menu.Item>
+                <div className="logo">{collapsed ? "D" : "Dashboard"}</div>
+                <Menu theme="dark" mode="inline">
+                    <Menu.SubMenu
+                        title={
+                            <>
+                                <AppstoreOutlined />
+                                <span>Widgets</span>
+                            </>
+                        }>
+                        <Menu.Item>
+                            Expenses
+                        </Menu.Item>
+                        <Menu.Item>
+                            Notes
+                        </Menu.Item>
+                        <Menu.Item>
+                            Todos
+                        </Menu.Item>
+                    </Menu.SubMenu>
+
+                    <Menu.Item onClick={setEditMode}>
                         <EditOutlined />
-                        <span>Enter Edit Mode</span>
+                        <span>Edit Mode</span>
                     </Menu.Item>
                 </Menu>
             </Sider>
