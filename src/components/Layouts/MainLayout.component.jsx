@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react'
-import { Layout, Menu } from 'antd'
+import React, { useState } from 'react'
+import { Layout } from 'antd'
 import { connect } from 'react-redux'
 import { useLocation } from 'react-router-dom'
-import { AppstoreOutlined, EditOutlined } from '@ant-design/icons'
 
 import Navbar from '../Navigation/Navbar.component'
+import Sidebar from '../Navigation/Sidebar/Sidebar.component'
 
 const { Header, Content } = Layout;
 
@@ -29,45 +29,12 @@ const MainLayout = ({ authUser, children, setEditMode }) => {
 const LoggedInMainLayout = ({ children, setEditMode }) => {
     const [collapsed, setCollapsed] = useState(false)
 
-    const { Sider } = Layout
     return (
         <Layout style={{ minHeight: '100vh' }}>
-            <Sider
-                style={{
-                    overflow: 'auto',
-                    height: '100vh',
-                    position: 'fixed',
-                    left: 0,
-                }}
-                collapsible
-                collapsed={collapsed}
-                onCollapse={() => setCollapsed(!collapsed)}>
-                <div className="logo">{collapsed ? "D" : "Dashboard"}</div>
-                <Menu theme="dark" mode="inline">
-                    <Menu.SubMenu
-                        title={
-                            <>
-                                <AppstoreOutlined />
-                                <span>Widgets</span>
-                            </>
-                        }>
-                        <Menu.Item>
-                            Expenses
-                        </Menu.Item>
-                        <Menu.Item>
-                            Notes
-                        </Menu.Item>
-                        <Menu.Item>
-                            Todos
-                        </Menu.Item>
-                    </Menu.SubMenu>
-
-                    <Menu.Item onClick={setEditMode}>
-                        <EditOutlined />
-                        <span>Edit Mode</span>
-                    </Menu.Item>
-                </Menu>
-            </Sider>
+            <Sidebar 
+                collapsed={collapsed} 
+                setCollapsed={setCollapsed}
+                setEditMode={setEditMode} />
             <Layout
                 style={{ marginLeft: collapsed ? 80 : 200 }}>
                 <Header style={{ backgroundColor: 'white', padding: '0' }}>

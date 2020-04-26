@@ -1,8 +1,11 @@
 import React, { Component } from 'react'
-import Routing from './components/Navigation/Routing.component'
 import { connect } from 'react-redux'
+import { DndProvider } from 'react-dnd'
+import TouchBackend from 'react-dnd-touch-backend'
+
 import { initializeFirebase } from './store/actions/firebaseActions'
 import { setAuthUser } from './store/actions/sessionActions'
+import Routing from './components/Navigation/Routing.component'
 
 class App extends Component {
 	componentDidMount() {
@@ -30,7 +33,9 @@ class App extends Component {
 
 	render() {
 		return (
-			<Routing />
+			<DndProvider backend={TouchBackend}>
+				<Routing />
+			</DndProvider>
 		)
 	}
 }
