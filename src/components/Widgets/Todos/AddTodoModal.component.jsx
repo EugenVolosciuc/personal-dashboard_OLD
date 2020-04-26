@@ -30,7 +30,8 @@ const AddTodoModal = ({ visible, handleCancel, handleAdd }) => {
             <Form
                 {...layout}
                 form={form}
-                name="add-new-note">
+                name="add-new-note"
+                onFinish={() => handleAdd(form)}>
                 <Form.Item
                     label="Title"
                     name="title"

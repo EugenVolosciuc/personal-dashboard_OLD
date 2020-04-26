@@ -17,7 +17,7 @@ const TodoItem = ({ todo, onUpdate, onDelete }) => {
             onClick={handleChange}
             className="show-on-hover">
             <span style={todoIsDone ? { textDecoration: 'line-through' } : null}>{todo.title}</span>
-            <DeleteOutlined onClick={() => onDelete(todo.uid)} />
+            <DeleteOutlined onClick={(event) => onDelete(event, todo.uid)} />
         </List.Item>
     )
 }

@@ -63,7 +63,8 @@ class TodosCard extends Component {
         }
     }
 
-    handleDeleteTodo = uid => {
+    handleDeleteTodo = (event, uid) => {
+        event.stopPropagation()
         this.props.deleteTodo(uid)
             .then(() => {
                 message.success('Todo deleted successfully')

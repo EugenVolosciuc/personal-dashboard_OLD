@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Card, Empty, message, Spin, Row } from 'antd'
-import { PlusOutlined } from '@ant-design/icons'
+import { PlusOutlined, AreaChartOutlined } from '@ant-design/icons'
 import { connect } from 'react-redux'
 import _ from 'lodash'
 import { v4 as uuidv4 } from 'uuid'
@@ -137,7 +137,11 @@ class ExpensesCard extends Component {
                 <Card
                     title={<p style={{ marginBottom: '0' }} onClick={this.toggleGeneralExpenseModal}>Monthly expenses</p>}
                     style={{ width: '300px' }}
-                    extra={<PlusOutlined onClick={() => this.toggleAddModal()} />}
+                    extra={
+                        <span>
+                            <PlusOutlined onClick={() => this.toggleAddModal()} style={{marginRight: '10px', fontSize: '18px'}} />
+                            <AreaChartOutlined style={{fontSize: '18px'}}/>
+                        </span>}
                 >
                     {
                         isLoading
