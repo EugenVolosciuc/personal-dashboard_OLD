@@ -2,6 +2,26 @@ import React from 'react'
 import { Layout, Menu } from 'antd'
 import { AppstoreOutlined, EditOutlined } from '@ant-design/icons'
 
+import TodosCard from '../../Widgets/Todos/TodosCard.component'
+import NotesCard from '../../Widgets/Notes/NotesCard.component'
+import ExpensesCard from '../../Widgets/Expenses/ExpensesCard.component'
+import WidgetItem from './WidgetItem.component'
+
+const widgetList = [
+    {
+        title: 'Todos',
+        component: TodosCard
+    },
+    {
+        title: 'Expenses',
+        component: ExpensesCard
+    },
+    {
+        title: 'Notes',
+        component: NotesCard
+    }
+]
+
 const Sidebar = ({ collapsed, setCollapsed, setEditMode }) => {
     const { Sider } = Layout
 
@@ -25,15 +45,15 @@ const Sidebar = ({ collapsed, setCollapsed, setEditMode }) => {
                             <span>Widgets</span>
                         </>
                     }>
-                    <Menu.Item>
-                        Expenses
-                    </Menu.Item>
-                    <Menu.Item>
-                        Notes
-                    </Menu.Item>
-                    <Menu.Item>
-                        Todos
-                    </Menu.Item>
+                    {
+                        widgetList.map((widget, index) => {
+                            return (
+                                <Menu.Item key={`.${index}`}>
+                                    <WidgetItem widget={widget}/>
+                                </Menu.Item>
+                            )
+                        })
+                    }
                 </Menu.SubMenu>
 
                 <Menu.Item onClick={setEditMode}>

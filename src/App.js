@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { DndProvider } from 'react-dnd'
-import TouchBackend from 'react-dnd-touch-backend'
+import Backend from 'react-dnd-html5-backend'
 
 import { initializeFirebase } from './store/actions/firebaseActions'
 import { setAuthUser } from './store/actions/sessionActions'
@@ -33,7 +33,7 @@ class App extends Component {
 
 	render() {
 		return (
-			<DndProvider backend={TouchBackend}>
+			<DndProvider backend={Backend}>
 				<Routing />
 			</DndProvider>
 		)

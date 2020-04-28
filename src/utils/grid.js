@@ -19,8 +19,6 @@ export const getGridLengthUnits = (gridDot) => {
     const nextSiblingRect = gridDot.nextSibling.getBoundingClientRect()
     const nextRowSiblingRect = gridDot.parentElement.nextSibling.children[indexOfClickedDot].getBoundingClientRect()
 
-    console.log(gridDotRect)
-
     // Get horizontal length between two dots
     gridLength.horizontalLength = nextSiblingRect.left - gridDotRect.right
 
