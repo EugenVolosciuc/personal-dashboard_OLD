@@ -4,7 +4,7 @@ import GridDot from './GridDot.component'
 
 const gridLayout = {
     length: 6,
-    height: 12
+    height: 10
 }
 
 const getGridRows = () => {

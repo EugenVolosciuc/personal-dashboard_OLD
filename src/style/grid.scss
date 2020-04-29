@@ -2,6 +2,11 @@
 
 $grid-dot-height: 15px;
 
+.widget-drop-zone {
+    position: relative;
+    height: 100%;
+}
+
 .grid-dot {
     display: inline-block;
     width: $grid-dot-height;
@@ -24,6 +29,9 @@ $grid-dot-height: 15px;
 }
 
 .grid {
+    position: absolute;
+    width: 100%;
+    height: 100%;
     display: flex;
     flex-wrap: nowrap;
     flex-direction: column;

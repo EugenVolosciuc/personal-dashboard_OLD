@@ -8,13 +8,13 @@ import Sidebar from '../Navigation/Sidebar/Sidebar.component'
 
 const { Header, Content } = Layout;
 
-const MainLayout = ({ authUser, children, setEditMode }) => {
+const MainLayout = ({ authUser, children }) => {
     const location = useLocation()
 
     const getLayoutToShow = () => {
         if (authUser) {
             if (location.pathname === '/dashboard') {
-                return <LoggedInMainLayout setEditMode={setEditMode}>{children}</LoggedInMainLayout>
+                return <LoggedInMainLayout>{children}</LoggedInMainLayout>
             } else {
                 return <LoggedOutMainLayout>{children}</LoggedOutMainLayout>
             }
@@ -26,15 +26,14 @@ const MainLayout = ({ authUser, children, setEditMode }) => {
     return <>{getLayoutToShow()}</>
 }
 
-const LoggedInMainLayout = ({ children, setEditMode }) => {
+const LoggedInMainLayout = ({ children }) => {
     const [collapsed, setCollapsed] = useState(false)
 
     return (
         <Layout style={{ minHeight: '100vh' }}>
             <Sidebar 
                 collapsed={collapsed} 
-                setCollapsed={setCollapsed}
-                setEditMode={setEditMode} />
+                setCollapsed={setCollapsed}/>
             <Layout
                 style={{ marginLeft: collapsed ? 80 : 200 }}>
                 <Header style={{ backgroundColor: 'white', padding: '0' }}>

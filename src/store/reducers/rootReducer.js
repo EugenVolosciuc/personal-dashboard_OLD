@@ -7,6 +7,7 @@ import expenseReducer from './expenseReducer'
 import paymentReducer from './paymentReducer'
 import noteReducer from './noteReducer'
 import todoReducer from './todoReducer'
+import dashboardEditModeReducer from './dashboardEditModeReducer'
 
 const rootReducer = combineReducers({
     authUser: sessionReducer,
@@ -15,7 +16,8 @@ const rootReducer = combineReducers({
     expenses: expenseReducer,
     payments: paymentReducer,
     notes: noteReducer,
-    todos: todoReducer
+    todos: todoReducer,
+    dashboardEditMode: dashboardEditModeReducer
 })
 
 export default rootReducer

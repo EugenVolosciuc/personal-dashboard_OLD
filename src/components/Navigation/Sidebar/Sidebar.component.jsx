@@ -1,10 +1,10 @@
 import React from 'react'
 import { Layout, Menu } from 'antd'
-import { EditOutlined } from '@ant-design/icons'
+// import { EditOutlined } from '@ant-design/icons'
 
 import WidgetList from './WidgetList.component'
 
-const Sidebar = ({ collapsed, setCollapsed, setEditMode }) => {
+const Sidebar = ({ collapsed, setCollapsed, ...otherProps }) => {
     const { Sider } = Layout
 
     return (
@@ -21,10 +21,10 @@ const Sidebar = ({ collapsed, setCollapsed, setEditMode }) => {
             <div className="logo">{collapsed ? "D" : "Dashboard"}</div>
             <Menu theme="dark" mode="inline">
                 <WidgetList />
-                <Menu.Item onClick={setEditMode}>
+                {/* <Menu.Item onClick={() => otherProps.toggleDashboardEditMode()}>
                     <EditOutlined />
                     <span>Edit Mode</span>
-                </Menu.Item>
+                </Menu.Item> */}
             </Menu>
         </Sider>
     )
