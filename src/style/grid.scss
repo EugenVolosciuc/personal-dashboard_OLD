@@ -3,8 +3,11 @@
 $grid-dot-height: 15px;
 
 .widget-drop-zone {
-    position: relative;
     height: 100%;
+
+    .widget-positioner {
+        position: absolute;
+    }
 }
 
 .grid-dot {

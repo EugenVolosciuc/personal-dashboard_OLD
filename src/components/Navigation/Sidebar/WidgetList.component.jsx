@@ -2,25 +2,8 @@ import React from 'react'
 import { Menu } from 'antd'
 import { AppstoreOutlined } from '@ant-design/icons'
 
-import TodosCard from '../../Widgets/Todos/TodosCard.component'
-import NotesCard from '../../Widgets/Notes/NotesCard.component'
-import ExpensesCard from '../../Widgets/Expenses/ExpensesCard.component'
 import WidgetListItem from './WidgetListItem.component'
-
-const widgetList = [
-    {
-        title: 'Todos',
-        component: TodosCard
-    },
-    {
-        title: 'Expenses',
-        component: ExpensesCard
-    },
-    {
-        title: 'Notes',
-        component: NotesCard
-    }
-]
+import { widgetList } from '../../../utils/widgetList'
 
 const WidgetList = (props) => {
     return (

@@ -49,7 +49,7 @@ const LoggedInMainLayout = ({ children }) => {
 
 const LoggedOutMainLayout = ({ children }) => {
     return (
-        <Layout>
+        <Layout className="relative">
             <Header style={{ backgroundColor: 'white', padding: '0' }}>
                 <Navbar />
             </Header>
