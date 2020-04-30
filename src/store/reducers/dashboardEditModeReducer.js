@@ -7,8 +7,6 @@ const initialState = {
 function dashboardEditModeReducer(state = initialState, action) {
     switch(action.type) {
         case TOGGLE_DASHBOARD_EDIT_MODE:
-
-        console.log("THIS HAPPENED!")
             return {
                 ...state,
                 editMode: !state.editMode

@@ -5,7 +5,6 @@ import { connect } from 'react-redux'
 import { ITEM_TYPES } from '../../../constants/dnd-types'
 import { toggleDashboardEditMode } from '../../../store/actions/dashboardEditModeActions'
 
-
 const getStyles = isDragging => {
     return {
         position: 'absolute',

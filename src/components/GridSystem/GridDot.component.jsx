@@ -1,36 +1,66 @@
 import React from 'react'
-import { useDrop } from 'react-dnd'
+import ReactDOM from 'react-dom'
+import { DropTarget } from 'react-dnd'
+import { connect } from 'react-redux'
 
 import { getWidthHeightPositionOfWidget } from '../../utils/grid'
 import { ITEM_TYPES } from '../../constants/dnd-types'
+import { setWidgetPosition } from '../../store/actions/widgetPositionActions'
 
 const hoverDragStyling = {
     transform: 'scale(1.5)'
 }
 
-const GridDot = () => {
-    const [{ hovered, canDrop }, drop] = useDrop({
-        accept: ITEM_TYPES.WIDGET,
-        drop: item => console.log("DROPPED!", item), // this is where I will fire the redux action to store the widget coordinates
-        collect: (monitor) => ({
-            hovered: !!monitor.isOver(),
-            canDrop: !!monitor.canDrop(),
-        }),
-    })
+class GridDot extends React.Component {
+    render() {
+        const { connectDropTarget, hovered, canDrop } = this.props
 
-    const handleClick = (event) => {
-        event.persist()
-        console.log(getWidthHeightPositionOfWidget(event.target))
+        return connectDropTarget(
+            <span
+                style={hovered ? hoverDragStyling : null}
+                className="grid-dot"
+            />
+        )
     }
-
-    return (
-        <span 
-            ref={drop} 
-            style={hovered ? hoverDragStyling : null}
-            onClick={handleClick} 
-            className="grid-dot"
-        />
-    )
 }
 
-export default GridDot
+const dropTargetContract = {
+    drop: (props, monitor, component) => {
+        const gridDotHTMLElement = ReactDOM.findDOMNode(component)
+        const widgetPosition = getWidthHeightPositionOfWidget(gridDotHTMLElement)
+        const widgetTitle = monitor.getItem().title.toLowerCase()
+
+        props.setWidgetPosition({
+            widgetTitle,
+            coordinates: {
+                x: widgetPosition.widgetPosition.x,
+                y: widgetPosition.widgetPosition.y
+            },
+            measurements: {
+                width: widgetPosition.widgetWidth,
+                height: widgetPosition.widgetHeight
+            }
+        })
+    }
+}
+
+const collector = (connect, monitor) => ({
+    connectDropTarget: connect.dropTarget(),
+    hovered: monitor.isOver(),
+    canDrop: monitor.canDrop()
+})
+
+const mapDispatchToProps = dispatch => {
+    return {
+        setWidgetPosition: (payload) => dispatch(setWidgetPosition(payload))
+    }
+}
+
+export default connect(
+    null,
+    mapDispatchToProps
+)(DropTarget(
+    ITEM_TYPES.WIDGET,
+    dropTargetContract,
+    collector
+)(GridDot))
