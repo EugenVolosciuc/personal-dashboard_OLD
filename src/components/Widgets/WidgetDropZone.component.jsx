@@ -15,7 +15,7 @@ const WidgetDropZone = ({ dashboardEditMode, widgetsPosition }) => {
                 widgetList.map(widget => {
                     if (!isEmpty(widgetsPosition[widget.title.toLowerCase()])) {
                         return (
-                            <WidgetPositioner position={widgetsPosition[widget.title.toLowerCase()]}>
+                            <WidgetPositioner key={`${widget.title} widget`} position={widgetsPosition[widget.title.toLowerCase()]}>
                                 <widget.component />
                             </WidgetPositioner>
                         )

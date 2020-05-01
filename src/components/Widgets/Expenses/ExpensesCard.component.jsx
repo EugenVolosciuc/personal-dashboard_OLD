@@ -117,7 +117,7 @@ class ExpensesCard extends Component {
         const { expenses, isLoading } = this.props
 
         return (
-            <div>
+            <>
                 {expenseDetailsModal &&
                     <ExpenseDetailsModal
                         expense={expenses.find(expense => expense.title === expenseDetailsModal) || {}}
@@ -135,8 +135,8 @@ class ExpensesCard extends Component {
                         visible={generalExpenseModal}
                         handleCancel={this.toggleGeneralExpenseModal} />}
                 <Card
+                    className="widget"
                     title={<p style={{ marginBottom: '0' }} onClick={this.toggleGeneralExpenseModal}>Monthly expenses</p>}
-                    style={{ width: '300px' }}
                     extra={
                         <span>
                             <PlusOutlined onClick={() => this.toggleAddModal()} style={{marginRight: '10px', fontSize: '18px'}} />
@@ -161,7 +161,7 @@ class ExpensesCard extends Component {
                                 })
                     }
                 </Card>
-            </div>
+            </>
         )
     }
 }

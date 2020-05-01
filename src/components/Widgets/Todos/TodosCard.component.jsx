@@ -95,15 +95,15 @@ class TodosCard extends Component {
 
 
         return (
-            <div>
+            <>
                 {showAddTodoModal &&
                     <AddTodoModal
                         visible={showAddTodoModal}
                         handleCancel={this.toggleAddModal}
                         handleAdd={this.handleAddTodo} />}
                 <Card
+                    className="widget"
                     title="Todos"
-                    style={{ width: '300px' }}
                     extra={<PlusOutlined onClick={() => this.toggleAddModal()} />}>
                     {
                         isLoading
@@ -124,7 +124,7 @@ class TodosCard extends Component {
                                 </List>
                     }
                 </Card>
-            </div>
+            </>
         )
     }
 }

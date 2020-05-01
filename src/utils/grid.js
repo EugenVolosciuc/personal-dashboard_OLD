@@ -28,7 +28,6 @@ export const getGridLengthUnits = (gridDot) => {
     return gridLength
 }
 /**
- * 
  * @param {HTMLElement} gridDot Dot on which the user clicks
  * @param {Number} minWidth Minimum length (distances between horizontal dots) of the widget
  * @param {Number} minHeight Minimum height (distances between vertical dots) of the widget
@@ -37,10 +36,18 @@ export const getGridLengthUnits = (gridDot) => {
 export const getWidthHeightPositionOfWidget = (gridDot, minWidth = 2, minHeight = 2) => {
     const { horizontalLength, verticalLength } = getGridLengthUnits(gridDot)
     const gridDotRect = gridDot.getBoundingClientRect()
+    console.log("gridDotRect", gridDotRect)
 
     return {
         widgetWidth: Math.round((horizontalLength * minWidth) + (gridDotRect.width * (minWidth - 1))),
         widgetHeight: Math.round((verticalLength * minHeight) + (gridDotRect.height * (minHeight - 1))),
-        widgetPosition: gridDotRect
+        widgetPosition: {
+            bottom: gridDotRect.bottom - gridDotRect.height,
+            top: gridDotRect.top + gridDotRect.height,
+            left: gridDotRect.left + gridDotRect.width,
+            right: gridDotRect.right - gridDotRect.width,
+            x: gridDotRect.x + gridDotRect.width,
+            y: gridDotRect.y + gridDotRect.height
+        }
     }
 }

@@ -7,20 +7,11 @@ import { getWidthHeightPositionOfWidget } from '../../utils/grid'
 import { ITEM_TYPES } from '../../constants/dnd-types'
 import { setWidgetPosition } from '../../store/actions/widgetPositionActions'
 
-const hoverDragStyling = {
-    transform: 'scale(1.5)'
-}
-
 class GridDot extends React.Component {
     render() {
         const { connectDropTarget, hovered, canDrop } = this.props
 
-        return connectDropTarget(
-            <span
-                style={hovered ? hoverDragStyling : null}
-                className="grid-dot"
-            />
-        )
+        return connectDropTarget(<span className="grid-dot" />)
     }
 }
 

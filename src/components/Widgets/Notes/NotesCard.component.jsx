@@ -104,7 +104,7 @@ class NotesCard extends Component {
         const { notes, isLoading } = this.props
 
         return (
-            <div>
+            <>
                 {addNoteModal &&
                     <AddNoteModal 
                         visible={addNoteModal}
@@ -120,8 +120,8 @@ class NotesCard extends Component {
                         handleDelete={this.handleDeleteNote} />}
 
                 <Card
+                    className="widget"
                     title='Notes'
-                    style={{width: '300px'}}
                     extra={<PlusOutlined onClick={() => this.toggleAddModal()} />}>
                         {
                             isLoading
@@ -141,7 +141,7 @@ class NotesCard extends Component {
                                     })
                         }
                 </Card>
-            </div>
+            </>
         )
     }
 }
