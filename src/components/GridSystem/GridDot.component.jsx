@@ -5,7 +5,8 @@ import { connect } from 'react-redux'
 
 import { getWidthHeightPositionOfWidget } from '../../utils/grid'
 import { ITEM_TYPES } from '../../constants/dnd-types'
-import { setWidgetPosition } from '../../store/actions/widgetPositionActions'
+import { UPDATE_TYPES } from '../../store/actions/userSettingsActions'
+import { updateUserSettings } from '../../store/actions/userSettingsActions'
 
 class GridDot extends React.Component {
     render() {
@@ -21,17 +22,20 @@ const dropTargetContract = {
         const widgetPosition = getWidthHeightPositionOfWidget(gridDotHTMLElement)
         const widgetTitle = monitor.getItem().title.toLowerCase()
 
-        props.setWidgetPosition({
-            widgetTitle,
-            coordinates: {
-                x: widgetPosition.widgetPosition.x,
-                y: widgetPosition.widgetPosition.y
-            },
-            measurements: {
-                width: widgetPosition.widgetWidth,
-                height: widgetPosition.widgetHeight
+        props.updateUserSettings(
+            UPDATE_TYPES.SETTINGS_WIDGET_POSITIONS,
+            {
+                widgetTitle,
+                coordinates: {
+                    x: widgetPosition.widgetPosition.x,
+                    y: widgetPosition.widgetPosition.y
+                },
+                measurements: {
+                    width: widgetPosition.widgetWidth,
+                    height: widgetPosition.widgetHeight
+                }
             }
-        })
+        )
     }
 }
 
@@ -43,7 +47,7 @@ const collector = (connect, monitor) => ({
 
 const mapDispatchToProps = dispatch => {
     return {
-        setWidgetPosition: (payload) => dispatch(setWidgetPosition(payload))
+        updateUserSettings: (updateType, payload) => dispatch(updateUserSettings(updateType, payload))
     }
 }
 

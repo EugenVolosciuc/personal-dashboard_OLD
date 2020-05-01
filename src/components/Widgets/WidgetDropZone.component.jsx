@@ -1,21 +1,27 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
-import isEmpty from 'lodash/isEmpty'
-
+import isNil from 'lodash/isNil'
 
 import WidgetPositioner from './WidgetPositioner.component'
 import { widgetList } from '../../utils/widgetList'
 import Grid from '../GridSystem/Grid.component'
 
-const WidgetDropZone = ({ dashboardEditMode, widgetsPosition }) => {
+const WidgetDropZone = ({ dashboardEditMode, widgetPositions }) => {
+    const [positionsNotNull, setPositionsNotNull] = useState(false)
+
+    useEffect(() => {
+
+    }, [])
+
     return (
         <div className="widget-drop-zone">
             {dashboardEditMode && <Grid />}
             {
                 widgetList.map(widget => {
-                    if (!isEmpty(widgetsPosition[widget.title.toLowerCase()])) {
+                    if (!isNil(widgetPositions[widget.title.toLowerCase()])) {
+                        console.log("THIS THING", widgetPositions[widget.title.toLowerCase()])
                         return (
-                            <WidgetPositioner key={`${widget.title} widget`} position={widgetsPosition[widget.title.toLowerCase()]}>
+                            <WidgetPositioner key={`${widget.title} widget`} position={widgetPositions[widget.title.toLowerCase()]}>
                                 <widget.component />
                             </WidgetPositioner>
                         )
@@ -27,10 +33,9 @@ const WidgetDropZone = ({ dashboardEditMode, widgetsPosition }) => {
 }
 
 const mapStateToProps = state => {
-    console.log(state)
     return {
         dashboardEditMode: state.dashboardEditMode.editMode,
-        widgetsPosition: state.widgetsPosition
+        widgetPositions: state.userSettings.settings.widgetPositions
     }
 }
 

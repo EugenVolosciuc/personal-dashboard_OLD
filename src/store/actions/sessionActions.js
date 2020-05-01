@@ -1,10 +1,8 @@
 export const SET_AUTH_USER = 'SET_AUTH_USER'
 
-function setAuthUser(payload) {
+export const setAuthUser = (payload) => {
     return {
         type: SET_AUTH_USER,
         payload
     }
 }
-
-export { setAuthUser }

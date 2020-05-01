@@ -5,6 +5,7 @@ import Backend from 'react-dnd-html5-backend'
 
 import { initializeFirebase } from './store/actions/firebaseActions'
 import { setAuthUser } from './store/actions/sessionActions'
+import { getUserSettings } from './store/actions/userSettingsActions'
 import Routing from './components/Navigation/Routing.component'
 
 class App extends Component {
@@ -16,8 +17,12 @@ class App extends Component {
 		if (this.props.firebase) {
 			this.authListener = this.props.firebase.auth.onAuthStateChanged(
 				authUser => {
+					// Set authUser
 					localStorage.setItem('authUser', JSON.stringify(authUser))
 					this.props.setAuthUser({ authUser })
+
+					// Get authUser settings
+					this.props.getUserSettings()
 				},
 				() => {
 					localStorage.removeItem('authUser')
@@ -49,7 +54,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
 	return {
 		initializeFirebase: () => dispatch(initializeFirebase()),
-		setAuthUser: (authUser) => dispatch(setAuthUser(authUser))
+		setAuthUser: (authUser) => dispatch(setAuthUser(authUser)),
+		getUserSettings: () => dispatch(getUserSettings())
 	}
 }
 
