@@ -35,7 +35,6 @@ export default function userSettingsReducer(state = initialState, action) {
                 error: action.payload.error
             }
         case GET_USER_SETTINGS_SUCCESS:
-            console.log("USER SETTINGS", action.payload)
             return {
                 ...state,
                 loading: false,
@@ -58,10 +57,14 @@ export default function userSettingsReducer(state = initialState, action) {
                             widgetPositions: {
                                 ...state.settings.widgetPositions,
                                 [action.payload.widgetTitle]: {
-                                    x: action.payload.coordinates.x,
-                                    y: action.payload.coordinates.y,
-                                    width: action.payload.measurements.width,
-                                    height: action.payload.measurements.height
+                                    measurements: {
+                                        width: action.payload.measurements.width,
+                                        height: action.payload.measurements.height
+                                    },
+                                    coordinates: {
+                                        x: action.payload.coordinates.x,
+                                        y: action.payload.coordinates.y,
+                                    }
                                 }
                             }
                         }

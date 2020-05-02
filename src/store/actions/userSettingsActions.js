@@ -17,13 +17,6 @@ export const getUserSettings = () => (dispatch, getState) => {
     const { userSettingsRef } = getUserSettingsDBRef(getState)
     return userSettingsRef.get()
         .then(queryDocumentSnapshot => {
-            // console.log("queryDocumentSnapshot", queryDocumentSnapshot.data())
-            // let userSettingsList = []
-            // queryDocumentSnapshot.forEach(doc => {
-            //     console.log("DOC", doc)
-            //     userSettingsList.push({ ...doc.data(), uid: doc.id })
-            // })
-
             dispatch(getUserSettingsSuccess(queryDocumentSnapshot.data()))
             Promise.resolve()
         })

@@ -36,7 +36,6 @@ export const getGridLengthUnits = (gridDot) => {
 export const getWidthHeightPositionOfWidget = (gridDot, minWidth = 2, minHeight = 2) => {
     const { horizontalLength, verticalLength } = getGridLengthUnits(gridDot)
     const gridDotRect = gridDot.getBoundingClientRect()
-    console.log("gridDotRect", gridDotRect)
 
     return {
         widgetWidth: Math.round((horizontalLength * minWidth) + (gridDotRect.width * (minWidth - 1))),

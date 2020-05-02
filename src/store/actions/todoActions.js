@@ -19,7 +19,6 @@ export const getTodos = () => (dispatch, getState) => {
         .then(querySnapshot => {
             let todosList = []
 
-            console.log("TODOS QUERY SNAPSHOT", querySnapshot)
             querySnapshot.forEach(doc => {
                 todosList.push({ ...doc.data(), uid: doc.id })
             })
